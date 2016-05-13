@@ -1,6 +1,6 @@
 /**
  * Angular Carousel - Mobile friendly touch carousel for AngularJS
- * @version v1.1.0 - 2016-05-12
+ * @version v1.0.1 - 2016-05-13
  * @link http://revolunet.github.com/angular-carousel
  * @author Julien Bouquillon <julien@revolunet.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -365,14 +365,7 @@ angular.module('angular-carousel').run(['$templateCache', function($templateCach
                             animating = false,
                             mouseUpBound = false,
                             locked = false;
-                      //CONFLIC FIXMEif(iAttributes.rnCarouselControls!==undefined) {
-                      //   // dont use a directive for this
-                      //   var tpl = '<div class="rn-carousel-controls">\n' +
-                      //     '  <span class="rn-carousel-control rn-carousel-control-prev" ng-click="prevSlide()" ng-if="carouselIndex > 0 || loop"></span>\n' +
-                      //     '  <span class="rn-carousel-control rn-carousel-control-next" ng-click="nextSlide()" ng-if="carouselIndex < ' + repeatCollection + '.length - 1 || loop"></span>\n' +
-                      //     '</div>';
-                      //   iElement.append($compile(angular.element(tpl))(scope));
-                      // }CONFLICT FIXME
+
                         //rn-swipe-disabled =true will only disable swipe events
                         if(iAttributes.rnSwipeDisabled !== "true") {
                             $swipe.bind(iElement, {
@@ -400,7 +393,7 @@ angular.module('angular-carousel').run(['$templateCache', function($templateCach
 
                         function updateSlidesPosition(offset) {
                             // manually apply transformation to carousel childrens
-                            // todo : optim : apply only to visible items
+			    // todo : optim : apply only to visible items
                             var x = scope.carouselBufferIndex * 100 + offset;
 			    if (loop) {
 			    	x -= 100;
@@ -431,11 +424,12 @@ angular.module('angular-carousel').run(['$templateCache', function($templateCach
                         };
 
                         function goToSlide(index, slideOptions) {
+                            //console.log('goToSlide', arguments);
                             // move a to the given slide index
                             if (index === undefined) {
                                 index = scope.carouselIndex;
                             }
-
+			    
                             slideOptions = slideOptions || {};
                             if (slideOptions.animate === false || options.transitionType === 'none') {
                                 locked = false;
@@ -645,10 +639,8 @@ angular.module('angular-carousel').run(['$templateCache', function($templateCach
                             var deepWatch = (iAttributes.rnCarouselDeepWatch!==undefined);
 
                             scope[deepWatch?'$watch':'$watchCollection'](repeatCollection, function(newValue, oldValue) {
-                                //console.log('repeatCollection', currentSlides);
-                              // TODO: add looping support to update virtual slides
-                                
-                                //console.log('repeatCollection', arguments);
+                              // TODO: add looping support to update virtual slides  
+                              //console.log('repeatCollection', currentSlides);
                                 currentSlides = newValue;
                                 // if deepWatch ON ,manually compare objects to guess the new position
                                 if (!angular.isArray(currentSlides)) {
